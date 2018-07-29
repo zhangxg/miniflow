@@ -13,7 +13,12 @@ class Node(object):
 
     self.value = None
 
+    self.gradients = {}
+
   def forward(self):
+    raise NotImplementedError
+
+  def backward(self):
     raise NotImplementedError
 
 
@@ -86,9 +91,21 @@ class Sigmoid(Node):
   def __init__(self, inputs):
     Node.__init__(self, [inputs])
 
-  def forward(self):
+  def _sigmoid(self):
     x = -self.inbound_nodes[0].value
-    self.value = 1 / (1 + np.exp(x))
+    return 1 / (1 + np.exp(x))
+
+  def _sigmoid_differentiate(self):
+    return self._sigmoid() * (1 - self._sigmoid())
+
+  def sigmoid(self):
+    return self._sigmoid()
+
+  def sigmoid_differentiate(self):
+    return self._sigmoid_differentiate()
+
+  def forward(self):
+    self.value = self._sigmoid()
 
 
 class MSE(Node):
