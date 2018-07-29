@@ -81,3 +81,11 @@ class MatrixLinear(Node):
                  + self.inbound_nodes[2].avlue
 
 
+class Sigmoid(Node):
+
+  def __init__(self, inputs):
+    Node.__init__(self, [inputs])
+
+  def forward(self):
+    x = -self.inbound_nodes[0].value
+    self.value = 1 / (1 + np.exp(x))
