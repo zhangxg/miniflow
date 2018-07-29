@@ -96,8 +96,29 @@ def linear_with_sigmoid():
   print(output)
 
 
+def mse():
+  y, a = Input(), Input()
+  cost = MSE(y, a)
+
+  y_ = np.array([1, 2, 3])
+  a_ = np.array([4.5, 5, 10])
+
+  feed_dict = {y: y_, a: a_}
+  graph = topological_sort(feed_dict)
+  # forward pass
+  forward_pass(cost, graph)
+
+  """
+  Expected output
+
+  23.4166666667
+  """
+  print(cost.value)
+
+
 if __name__ == "__main__":
   # simple_add()
   # linear()
   # matrix_linear()
-  linear_with_sigmoid()
+  # linear_with_sigmoid()
+  mse()

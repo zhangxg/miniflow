@@ -89,3 +89,15 @@ class Sigmoid(Node):
   def forward(self):
     x = -self.inbound_nodes[0].value
     self.value = 1 / (1 + np.exp(x))
+
+
+class MSE(Node):
+
+  def __init__(self, a, y):
+    Node.__init__(self, [a, y])
+
+  def forward(self):
+    y = self.inbound_nodes[1].value
+    y_hat = self.inbound_nodes[0].value
+    # self.value = np.sum(np.square(y - y_hat)) / len(y)
+    self.value = np.mean(np.square(y - y_hat))
