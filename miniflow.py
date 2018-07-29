@@ -50,14 +50,25 @@ class Multiple(Node):
 class Linear(Node):
 
   def __init__(self, inputs, weights, bias):
-    Node.__init__(self, [inputs])
-    self.weights = weights
-    self.bias = bias
-    self.value = 0
+    # ## my work vs the tutorial's
+    # Node.__init__(self, [inputs])
+    # self.weights = weights
+    # self.bias = bias
+    # self.value = 0
+
+    # the input, weights and bias are treated as inbound_nodes,
+    # this is more clear
+    Node.__init__(self, [inputs, weights, bias])
 
   def forward(self):
     # self.value = np.dot(self.inputs, self.weights) + self.bias
-    self.value = np.dot(self.inbound_nodes[0].value, self.weights.value) + self.bias.value
+
+    # this works, but not quite intuitively.
+    # self.value = np.dot(self.inbound_nodes[0].value, self.weights.value) + self.bias.value
+
+    # the calculation is adjusted accordingly.
+    self.value = np.dot(self.inbound_nodes[0].value, self.inbound_nodes[1].value) \
+                 + self.inbound_nodes[2].value
 
 
 
