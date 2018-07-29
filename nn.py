@@ -1,30 +1,27 @@
 
 
 from miniflow import *
+from helper import *
 
-if __name__ == "__main__":
+
+def simple_add():
   x, y = Input(), Input()
-
-  f = Add(x, y)
-
   z = Input()
 
-  # t = f + z
-  t = Add(f, z)
+  f = Add([x, y, z])
+  t = Add([f, z])
 
-  m = Add(f, x)
+  m = Multiple([t, x, z])
 
-  zz = Add(t, m)
-
-  feed_dict = {x: 10, y: 5, z:20}
+  feed_dict = {x: 10, y: 5, z: 20}
 
   sorted_nodes = topological_sort(feed_dict)
-  # output = forward_pass(f, sorted_nodes)
-  output = forward_pass(zz, sorted_nodes)
+  output = forward_pass(m, sorted_nodes)
 
   # NOTE: because topological_sort set the values for the `Input` nodes we could also access
   # the value for x with x.value (same goes for y).
 
+  # fixme, this still doesn't reflect the graph
   equation = ""
   parameters = []
   for k in feed_dict.keys():
@@ -35,4 +32,26 @@ if __name__ == "__main__":
 
   print(parameters)
   print((equation + "(according to miniflow)").format(*parameters))
+
+
+def linear():
+  inputs, weights, bias = Input(), Input(), Input()
+
+  f = Linear(inputs, weights, bias)
+
+  feed_dict = {
+    inputs: [6, 14, 3],
+    weights: [0.5, 0.25, 1.4],
+    bias: 2
+  }
+
+  graph = topological_sort(feed_dict)
+  output = forward_pass(f, graph)
+
+  print(output)  # should be 12.7 with this example
+
+
+if __name__ == "__main__":
+  # simple_add()
+  linear()
 
