@@ -165,7 +165,7 @@ class Sigmoid(Node):
       # sigmoid_value = self._sigmoid(self.inbound_nodes[0].value)
       # self.gradients[self.inbound_nodes[0]] += sigmoid_value * (1 - sigmoid_value) * grad_cost
 
-      # it's essential to try the best to avoid duplicate calculation.  
+      # it's essential to try the best to avoid duplicate calculation.
       self.gradients[self.inbound_nodes[0]] += self.value * (1 - self.value) * grad_cost
 
 
@@ -268,3 +268,21 @@ def forward_and_backward(graph):
   # see: https://docs.python.org/2.3/whatsnew/section-slices.html
   for n in graph[::-1]:
     n.backward()
+
+
+def sgd_update(trainables, learning_rate=1e-2):
+    """
+    Updates the value of each trainable with SGD.
+
+    Arguments:
+
+        `trainables`: A list of `Input` Nodes representing weights/biases.
+        `learning_rate`: The learning rate.
+    """
+    # TODO: update all the `trainables` with SGD
+    # You can access and assign the value of a trainable with `value` attribute.
+    # Example:
+    # for t in trainables:
+    #   t.value = your implementation here
+    for t in trainables:
+      t.value -= t.gradients[t] * learning_rate

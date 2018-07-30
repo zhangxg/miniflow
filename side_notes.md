@@ -15,4 +15,18 @@
 
 9. [Vector, Matrix, and Tensor Derivatives](http://cs231n.stanford.edu/vecDerivs.pdf)
 
+10. now have a simple nn, why not go a little bit further? how about a CNN, from scratch? [maybe this](https://github.com/ahmedfgad/NumPyCNN)
 -- bottom line  -------
+
+worklog:
+
+1. write miniflow and unserstanding backprop;
+2. train against some dataset; 
+3. convert to cpp
+4. python and cpp
+5. can run against mnist? 
+
+
+----- 
+Mon Jul 30 15:32:38 2018
+write miniflow and unserstanding backprop;
