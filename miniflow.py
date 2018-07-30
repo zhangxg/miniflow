@@ -12,14 +12,13 @@ class Node(object):
       n.outbound_nodes.append(self)
 
     self.value = None
-
     self.gradients = {}
 
   def forward(self):
     raise NotImplementedError
 
-  def backward(self):
-    raise NotImplementedError
+  # def backward(self):
+  #   raise NotImplementedError
 
 
 class Input(Node):
@@ -31,6 +30,9 @@ class Input(Node):
     if value is not None:
       self.value = value
 
+  # def backward(self):
+  #   pass
+
 
 class Add(Node):
 
@@ -39,6 +41,9 @@ class Add(Node):
 
   def forward(self):
     self.value = sum([n.value for n in self.inbound_nodes])
+
+  # def backward(self):
+  #   pass
 
 
 class Multiple(Node):
@@ -50,6 +55,9 @@ class Multiple(Node):
   def forward(self):
     for n in self.inbound_nodes:
       self.value *= n.value
+
+  # def backward(self):
+  #   pass
 
 
 class Linear(Node):
@@ -75,6 +83,9 @@ class Linear(Node):
     self.value = np.dot(self.inbound_nodes[0].value, self.inbound_nodes[1].value) \
                  + self.inbound_nodes[2].value
 
+  # def backward(self):
+  #   pass
+
 
 class MatrixLinear(Node):
 
@@ -84,6 +95,9 @@ class MatrixLinear(Node):
   def forward(self):
     self.value = np.dot(self.inbound_nodes[0].value, self.inbound_nodes[1].value) \
                  + self.inbound_nodes[2].avlue
+
+  # def backward(self):
+  #   pass
 
 
 class Sigmoid(Node):
@@ -98,14 +112,17 @@ class Sigmoid(Node):
   def _sigmoid_differentiate(self):
     return self._sigmoid() * (1 - self._sigmoid())
 
-  def sigmoid(self):
-    return self._sigmoid()
-
-  def sigmoid_differentiate(self):
-    return self._sigmoid_differentiate()
+  # def sigmoid(self):
+  #   return self._sigmoid()
+  # 
+  # def sigmoid_differentiate(self):
+  #   return self._sigmoid_differentiate()
 
   def forward(self):
     self.value = self._sigmoid()
+
+  # def backward(self):
+  #   self.gradients[0] = self._sigmoid_differentiate()
 
 
 class MSE(Node):
@@ -118,3 +135,7 @@ class MSE(Node):
     y_hat = self.inbound_nodes[0].value
     # self.value = np.sum(np.square(y - y_hat)) / len(y)
     self.value = np.mean(np.square(y - y_hat))
+
+  # def backward(self):
+  #   pass
+
